@@ -8,9 +8,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="h-screen w-full flex items-center justify-center text-center">
-        <h1 className="text-center text-yellow-500 text-5xl font-semibold font-sans">Star Wars</h1>
-      </main>
+      <section className="h-screen w-full flex items-center justify-center text-center">
+        <div className="container px-3 mx-auto">
+          <form className="w-full md:w-1/2 mx-auto">
+            <input
+              type="text"
+              className="block w-full bg-white py-5 px-6 border border-sw-yellow rounded-lg"
+              placeholder="Choose a star wars movie"
+            />
+          </form>
+        </div>
+      </section>
     </div>
   )
 }

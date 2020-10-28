@@ -1,24 +1,45 @@
 import Head from 'next/head'
+import { useQuery } from 'react-query'
+import { fetchFilms } from '@/utils/client'
+import { Dropdown } from '@/components/dropdown'
+import { ReactQueryConfigProvider } from 'react-query'
+import { parseISO, isAfter } from 'date-fns'
 
 export default function Home() {
-  return (
-    <div className="bg-black">
-      <Head>
-        <title>Star Wars App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+  const { status, data, error } = useQuery('films', fetchFilms)
 
-      <section className="h-screen w-full flex items-center justify-center text-center">
-        <div className="container px-3 mx-auto">
-          <form className="w-full md:w-1/2 mx-auto">
-            <input
-              type="text"
-              className="block w-full bg-white py-5 px-6 border border-sw-yellow rounded-lg"
-              placeholder="Choose a star wars movie"
-            />
-          </form>
+  if (status === 'loading') {
+    return <p>Loading...</p>
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>
+  }
+
+  function sorter(a, b) {
+    return isAfter(parseISO(a), parseISO(b))
+  }
+
+  return (
+    <ReactQueryConfigProvider config={{ queries: { refetchOnWindowFocus: false } }}>
+      <div className="container mx-auto p-3">
+        <Head>
+          <title>Star Wars App</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <div className="-mt-32">
+          <h1 className="text-sw-yellow mx-auto block text-center text-5xl font-starjedi mb-6">
+            Star Wars Movies
+          </h1>
+          <Dropdown
+            items={data.sort(sorter)}
+            onChange={(selection) => {
+              console.log(selection)
+            }}
+          />
         </div>
-      </section>
-    </div>
+      </div>
+    </ReactQueryConfigProvider>
   )
 }

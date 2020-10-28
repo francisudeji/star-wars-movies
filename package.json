@@ -10,6 +10,7 @@
   "dependencies": {
     "autoprefixer": "9.8.6",
     "axios": "^0.21.0",
+    "date-fns": "^2.16.1",
     "downshift": "^6.0.6",
     "next": "9.5.5",
     "react": "17.0.1",

@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Starjedi';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  font-named-instance: 'Regular';
+  src: url('../fonts/Starjedi.ttf') format('truetype');
+}
+
 @tailwind base;
 @tailwind components;
+
+body,
+html {
+  font-size: 14px;
+}
+
 @tailwind utilities;

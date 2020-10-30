@@ -62,7 +62,6 @@ export function TableLayout({ columns, data }) {
         </thead>
         <tbody {...getTableBodyProps({ className: 'divide-y divide-gray-800' })}>
           {page.map((row) => {
-            // console.log(row)
             prepareRow(row)
             return (
               <tr className="bg-gray-900 text-white hover:bg-gray-800" {...row.getRowProps()}>
@@ -78,10 +77,12 @@ export function TableLayout({ columns, data }) {
           })}
           <tr className="bg-gray-900 text-white hover:bg-gray-800 font-semibold">
             <td className="p-4 text-sm">{/* {cell.render('Cell')} */}</td>
-            <td className="p-4 text-sm flex items-center">
+            <td className="p-4 text-sm space-x-0 sm:space-x-1 flex flex-col sm:flex-row sm:items-center">
               <span>{getTotalHeightInUnit({ rows: page })}cm</span>
-              <span className="pl-1">({getTotalHeightInUnit({ unit: 'foot', rows: page })}ft/</span>
-              <span className="">{getTotalHeightInUnit({ unit: 'inches', rows: page })}in)</span>
+              <div>
+                <span className="">({getTotalHeightInUnit({ unit: 'foot', rows: page })}ft/</span>
+                <span>{getTotalHeightInUnit({ unit: 'inches', rows: page })}in)</span>
+              </div>
             </td>
             <td className="p-4 text-sm">{page.length}</td>
           </tr>

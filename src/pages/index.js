@@ -9,7 +9,20 @@ import { Dropdown } from '@/components/dropdown'
 import { fetchFilms, fetchFilm } from '@/utils/queries'
 import { RadioButton, RadioGroup } from '@/components/radio'
 
+function OpeningCrawl({ openingCrawl }) {
+  return (
+    <section className="star-wars">
+      <div className="crawl">
+        {openingCrawl.split('\n').map((oc, i) => (
+          <p key={i + oc}>{oc}</p>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export default function Home() {
+  const [openingCrawl, setOpeningCrawl] = useState(null)
   const [gender, setGender] = useState('all')
   const { data: films } = useQuery('films', fetchFilms)
   const [mutate, { status, data: characters, error }] = useMutation(fetchFilm, {
@@ -56,7 +69,10 @@ export default function Home() {
         <Dropdown
           items={films.map((film) => film).sort(sorter)}
           onChange={(selection) => {
-            if (selection) mutate(selection.characters)
+            if (selection) {
+              mutate(selection.characters)
+              setOpeningCrawl(selection.opening_crawl)
+            }
           }}
         />
 
@@ -122,6 +138,8 @@ export default function Home() {
                     : character.gender === 'female'
                 )}
             />
+
+            <OpeningCrawl openingCrawl={openingCrawl} />
           </div>
         )}
       </div>

@@ -8,18 +8,7 @@ import { TableLayout } from '@/components/table'
 import { Dropdown } from '@/components/dropdown'
 import { fetchFilms, fetchFilm } from '@/utils/queries'
 import { RadioButton, RadioGroup } from '@/components/radio'
-
-function OpeningCrawl({ openingCrawl }) {
-  return (
-    <section className="star-wars">
-      <div className="crawl">
-        {openingCrawl.split('\n').map((oc, i) => (
-          <p key={i + oc}>{oc}</p>
-        ))}
-      </div>
-    </section>
-  )
-}
+import { OpeningCrawl } from '@/components/opening-crawl'
 
 export default function Home() {
   const [openingCrawl, setOpeningCrawl] = useState(null)
@@ -78,7 +67,7 @@ export default function Home() {
 
         {error && <div className="text-center text-red-500">{error}</div>}
         {status === 'idle' && (
-          <img src="/img/logo.jpg" className="w-64 block mx-auto text-center" alt="star wars" />
+          <img src="/logo.jpg" className="w-64 block mx-auto text-center" alt="star wars" />
         )}
         {status === 'loading' && <Spinner />}
         {status === 'success' && characters && (

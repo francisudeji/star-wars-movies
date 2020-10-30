@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTable, useSortBy, useFilters, useGlobalFilter, usePagination } from 'react-table'
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
-
+import { getTotalHeightInUnit } from '@/utils/height'
 export function TableLayout({ columns, data }) {
   const filterTypes = React.useMemo(
     () => ({
@@ -62,6 +62,7 @@ export function TableLayout({ columns, data }) {
         </thead>
         <tbody {...getTableBodyProps({ className: 'divide-y divide-gray-800' })}>
           {page.map((row) => {
+            // console.log(row)
             prepareRow(row)
             return (
               <tr className="bg-gray-900 text-white hover:bg-gray-800" {...row.getRowProps()}>
@@ -75,6 +76,15 @@ export function TableLayout({ columns, data }) {
               </tr>
             )
           })}
+          <tr className="bg-gray-900 text-white hover:bg-gray-800 font-semibold">
+            <td className="p-4 text-sm">{/* {cell.render('Cell')} */}</td>
+            <td className="p-4 text-sm flex items-center">
+              <span>{getTotalHeightInUnit({ rows: page })}cm</span>
+              <span className="pl-1">({getTotalHeightInUnit({ unit: 'foot', rows: page })}ft/</span>
+              <span className="">{getTotalHeightInUnit({ unit: 'inches', rows: page })}in)</span>
+            </td>
+            <td className="p-4 text-sm">{page.length}</td>
+          </tr>
         </tbody>
       </table>
     </section>

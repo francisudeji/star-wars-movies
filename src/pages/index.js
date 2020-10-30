@@ -8,8 +8,10 @@ import { TableLayout } from '@/components/table'
 import { Dropdown } from '@/components/dropdown'
 import { fetchFilms, fetchFilm } from '@/utils/queries'
 import { RadioButton, RadioGroup } from '@/components/radio'
+import { OpeningCrawl } from '@/components/opening-crawl'
 
 export default function Home() {
+  const [openingCrawl, setOpeningCrawl] = useState(null)
   const [gender, setGender] = useState('all')
   const { data: films } = useQuery('films', fetchFilms)
   const [mutate, { status, data: characters, error }] = useMutation(fetchFilm, {
@@ -56,13 +58,16 @@ export default function Home() {
         <Dropdown
           items={films.map((film) => film).sort(sorter)}
           onChange={(selection) => {
-            if (selection) mutate(selection.characters)
+            if (selection) {
+              mutate(selection.characters)
+              setOpeningCrawl(selection.opening_crawl)
+            }
           }}
         />
 
         {error && <div className="text-center text-red-500">{error}</div>}
         {status === 'idle' && (
-          <img src="/img/logo.jpg" className="w-64 block mx-auto text-center" alt="star wars" />
+          <img src="/logo.jpg" className="w-64 block mx-auto text-center" alt="star wars" />
         )}
         {status === 'loading' && <Spinner />}
         {status === 'success' && characters && (
@@ -122,6 +127,8 @@ export default function Home() {
                     : character.gender === 'female'
                 )}
             />
+
+            <OpeningCrawl openingCrawl={openingCrawl} />
           </div>
         )}
       </div>

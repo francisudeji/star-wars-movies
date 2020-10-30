@@ -70,7 +70,7 @@ export function Dropdown({ items, onChange }) {
             <ul
               {...getMenuProps({
                 className:
-                  'absolute top-0 left-0 w-full z-10 overflow-y-auto rounded-b-lg shadow-md divide-y divide-gray-800 bg-gray-900'
+                  'absolute top-0 left-0 w-full z-10 overflow-y-auto rounded-b-3xl shadow-md divide-y divide-gray-800 bg-gray-900'
               })}
             >
               {isOpen

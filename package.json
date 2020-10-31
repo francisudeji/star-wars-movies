@@ -4,10 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "test:watch": "export NODE_ENV=test && jest --watch",
+    "test": "export NODE_ENV=test && jest",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
     "autoprefixer": "9.8.6",
     "axios": "^0.21.0",
     "date-fns": "^2.16.1",
@@ -22,8 +27,11 @@
     "tailwindcss": "^1.9.6"
   },
   "devDependencies": {
+    "babel-jest": "^26.6.1",
     "eslint": "^7.12.1",
     "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-react-hooks": "^4.2.0"
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^26.6.1",
+    "react-test-renderer": "^17.0.1"
   }
 }

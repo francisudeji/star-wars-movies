@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { useTable, useSortBy, useFilters, useGlobalFilter, usePagination } from 'react-table'
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa'
-import { getTotalHeightInUnit } from '@/utils/height'
+import { getTotalHeightInUnit } from '../utils/height'
+
 export function TableLayout({ columns, data }) {
   const filterTypes = React.useMemo(
     () => ({
@@ -32,7 +33,7 @@ export function TableLayout({ columns, data }) {
 
   return (
     <section className="mt-6 rounded-lg overflow-hidden">
-      <table {...getTableProps({ className: 'w-full' })}>
+      <table aria-label="table" {...getTableProps({ className: 'w-full' })}>
         <thead className="bg-gray-900 text-sw-yellow">
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -76,11 +77,11 @@ export function TableLayout({ columns, data }) {
             )
           })}
           <tr className="bg-gray-900 text-white hover:bg-gray-800 font-semibold">
-            <td className="p-4 text-sm">{/* {cell.render('Cell')} */}</td>
+            <td className="p-4 text-sm"></td>
             <td className="p-4 text-sm space-x-0 sm:space-x-1 flex flex-col sm:flex-row sm:items-center">
               <span>{getTotalHeightInUnit({ rows: page })}cm</span>
               <div>
-                <span className="">({getTotalHeightInUnit({ unit: 'foot', rows: page })}ft/</span>
+                <span>({getTotalHeightInUnit({ unit: 'foot', rows: page })}ft/</span>
                 <span>{getTotalHeightInUnit({ unit: 'inches', rows: page })}in)</span>
               </div>
             </td>

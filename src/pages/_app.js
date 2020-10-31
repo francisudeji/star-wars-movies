@@ -1,4 +1,4 @@
-import '@/css/tailwind.css'
+import '../css/tailwind.css'
 import Head from 'next/head'
 import { ReactQueryCacheProvider, QueryCache } from 'react-query'
 import { Hydrate } from 'react-query/hydration'

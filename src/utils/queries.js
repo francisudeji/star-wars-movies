@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-// const apiUrl = process.env.NEXT_PUBLIC_API_URL
-// const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL
-
 export async function fetchFilms() {
   return await axios.get(`https://swapi.dev/api/films`).then((res) => res.data.results)
 }

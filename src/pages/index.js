@@ -1,48 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import Head from 'next/head'
 import { parseISO, isBefore } from 'date-fns'
 import { dehydrate } from 'react-query/hydration'
-import { useMutation, queryCache, useQuery, QueryCache } from 'react-query'
-import { Spinner } from '@/components/spinner'
-import { TableLayout } from '@/components/table'
-import { Dropdown } from '@/components/dropdown'
-import { fetchFilms, fetchFilm } from '@/utils/queries'
-import { RadioButton, RadioGroup } from '@/components/radio'
-import { OpeningCrawl } from '@/components/opening-crawl'
+import { useQuery, QueryCache } from 'react-query'
+import { Spinner } from '../components/spinner'
+import { TableLayout } from '../components/table'
+import { Dropdown } from '../components/dropdown'
+import { fetchFilms } from '../utils/queries'
+import { RadioButton, RadioGroup } from '../components/radio'
+import { OpeningCrawl } from '../components/opening-crawl'
+import { useCharactersMutation } from '../utils/hooks'
 
 export default function Home() {
+  const [_gender, setGender] = useState('all')
   const [openingCrawl, setOpeningCrawl] = useState(null)
-  const [gender, setGender] = useState('all')
+
   const { data: films } = useQuery('films', fetchFilms)
-  const [mutate, { status, data: characters, error }] = useMutation(fetchFilm, {
-    onSuccess(characters) {
-      characters.map(({ data }) =>
-        queryCache.setQueryData(['character', { url: data.url }], data, {
-          staleTime: 1000 * 60 * 60,
-          cacheTime: 1000 * 60 * 60
-        })
-      )
-    },
-    onMutate(characters) {
-      characters.forEach((character) => {
-        queryCache.cancelQueries(['character', { url: character }])
+  const { mutate, status, characters, error } = useCharactersMutation()
 
-        const previousCharacter = queryCache.getQueryData(['character', { url: character }])
-
-        queryCache.setQueryData(['character', { url: character }], previousCharacter)
-
-        return () => queryCache.setQueryData(['character', { url: character }], previousCharacter)
-      })
-    },
-    onError: (_, __, rollback) => rollback(),
-    onSettled: (characters) => {
-      characters.map(({ data }) => queryCache.invalidateQueries(['character', { url: data.url }]))
-    }
-  })
-
-  function sorter(a, b) {
+  const sorter = useCallback((a, b) => {
     return isBefore(parseISO(a), parseISO(b))
-  }
+  })
 
   return (
     <div className="container mx-auto p-3">
@@ -65,33 +43,33 @@ export default function Home() {
           }}
         />
 
-        {error && <div className="text-center text-red-500">{error}</div>}
+        {error && <div className="text-center text-red-500">{error.message}</div>}
         {status === 'idle' && (
           <img src="/logo.jpg" className="w-64 block mx-auto text-center" alt="star wars" />
         )}
         {status === 'loading' && <Spinner />}
         {status === 'success' && characters && (
-          <div>
+          <div data-testid="wrapper">
             <RadioGroup>
               <RadioButton
                 value="all"
                 id="all"
                 onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'all'}
+                checked={_gender === 'all'}
                 label="All"
               />
               <RadioButton
                 value="male"
                 id="male"
                 onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'male'}
+                checked={_gender === 'male'}
                 label="Male"
               />
               <RadioButton
                 value="female"
                 id="female"
                 onChange={(e) => setGender(e.target.value)}
-                checked={gender === 'female'}
+                checked={_gender === 'female'}
                 label="Female"
               />
             </RadioGroup>
@@ -114,15 +92,15 @@ export default function Home() {
                 }
               ]}
               data={characters
-                .map(({ data }) => ({
-                  name: data.name,
-                  gender: data.gender,
-                  height: data.height
+                .map(({ data: { name, gender, height } }) => ({
+                  name,
+                  gender,
+                  height
                 }))
                 .filter((character) =>
-                  gender === 'all'
+                  _gender === 'all'
                     ? character
-                    : gender === 'male'
+                    : _gender === 'male'
                     ? character.gender === 'male'
                     : character.gender === 'female'
                 )}

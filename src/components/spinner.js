@@ -1,6 +1,6 @@
 export function Spinner() {
   return (
-    <span className="w-full flex items-center justify-center text-center">
+    <span aria-label="spinner" className="w-full flex items-center justify-center text-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         version="1.0"

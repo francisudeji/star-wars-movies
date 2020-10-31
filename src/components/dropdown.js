@@ -1,6 +1,6 @@
 import Downshift from 'downshift'
 import { format, parseISO } from 'date-fns'
-import { FiSearch, FiChevronUp, FiChevronDown, FiX, FiChevronsDown } from 'react-icons/fi'
+import { FiSearch, FiChevronUp, FiChevronDown, FiX } from 'react-icons/fi'
 
 export function Dropdown({ items, onChange }) {
   const noMatchFound = ({ inputValue }) => {
@@ -42,7 +42,8 @@ export function Dropdown({ items, onChange }) {
                   !isOpen || noMatchFound({ inputValue }) ? 'rounded-full' : 'rounded-t-3xl'
                 }`,
                 placeholder: 'Type to select a star wars film...',
-                defaultValue: undefined
+                defaultValue: undefined,
+                role: 'search'
               })}
             />
             <div className="absolute top-0 right-0 text-xl mr-4 mt-3">
@@ -68,6 +69,7 @@ export function Dropdown({ items, onChange }) {
           </div>
           <div className="relative">
             <ul
+              data-testid="list"
               {...getMenuProps({
                 className:
                   'absolute top-0 left-0 w-full z-10 overflow-y-auto rounded-b-3xl shadow-md divide-y divide-gray-800 bg-gray-900'

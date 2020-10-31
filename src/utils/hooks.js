@@ -1,8 +1,8 @@
 import { useMutation, queryCache } from 'react-query'
-import { fetchFilm } from './queries'
+import { fetchFilmCharacters } from './queries'
 
 export function useCharactersMutation() {
-  const [mutate, { status, data: characters, error }] = useMutation(fetchFilm, {
+  const [mutate, { status, data: characters, error }] = useMutation(fetchFilmCharacters, {
     onSuccess(response, characters) {
       const data = response.map(({ data }) => data)
       queryCache.setQueryData(['characters', characters], data, {

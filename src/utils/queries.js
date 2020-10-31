@@ -9,6 +9,10 @@ export async function fetchFilms() {
 
 export async function fetchFilm(characters) {
   return await axios
-    .all(characters.map((characterUrl) => axios.get(`${proxyUrl}${characterUrl}`)))
+    .all(
+      characters.map((characterUrl) =>
+        axios.get(`${proxyUrl}${String(characterUrl).replace('http', 'https')}`)
+      )
+    )
     .then((res) => res)
 }

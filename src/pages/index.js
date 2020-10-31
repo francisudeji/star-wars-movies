@@ -26,6 +26,7 @@ export default function Home() {
     <div className="container mx-auto p-3">
       <Head>
         <title>Star Wars</title>
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
